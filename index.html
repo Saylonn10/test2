@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calendrier de l'Avent 💜</title>
+  <style>
+    /* Palette violette pastel */
+    :root {
+      --bg-top: #e6d6f5;
+      --bg-bottom: #d1b3f0;
+      --violet-dark: #4b2c5e;
+      --violet-mid: #a678c9;
+      --violet-light: #c9a7f5;
+      --violet-pastel: #b48de0;
+      --violet-locked: #9a8fb3;
+      --white: #ffffff;
+    }
+
+    /* Page */
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+      margin: 0;
+      color: var(--violet-dark);
+    }
+
+    header {
+      text-align: center;
+      padding: 24px 16px 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      color: var(--violet-dark);
+      text-shadow: 1px 2px 4px rgba(166, 120, 201, 0.4);
+    }
+
+    p.subtitle {
+      margin: 6px 0 16px;
+      opacity: 0.85;
+    }
+
+    /* Grille calendrier (jour = bloc avec 2 cases) */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(220px, 1fr)); /* 4 colonnes pour respirer */
+      gap: 18px;
+      padding: 16px;
+      max-width: 1080px;
+      margin: 0 auto 40px;
+    }
+
+    /* Bloc jour */
+    .day-group {
+      background: rgba(255, 255, 255, 0.35);
+      border: 1px solid rgba(75, 44, 94, 0.12);
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(75, 44, 94, 0.12);
+      padding: 12px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      backdrop-filter: blur(2px);
+    }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--violet-dark);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .day-header .badge {
+      background: var(--violet-mid);
+      color: var(--white);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 8px rgba(75, 44, 94, 0.2);
+    }
+
+    /* Les deux cases du jour */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    /* Case générique */
+    .card {
+      position: relative;
+      border-radius: 12px;
+      padding: 14px 12px;
+      text-align: center;
+      color: var(--white);
+      cursor: pointer;
+      transition: transform 0.18s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 6px 16px rgba(75, 44, 94, 0.18);
+      min-height: 70px;
+      display: grid;
+      place-items: center;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .card:hover:not(.locked) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(75, 44, 94, 0.24);
+    }
+
+    /* Case "Elle" (grande) */
+    .card.her {
+      background: var(--violet-mid);
+      min-height: 96px;
+      font-size: 1.15rem;
+      line-height: 1.4;
+    }
+
+    /* Case "Mashouille" (mini) */
+    .card.cat {
+      background: var(--violet-pastel);
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+
+    /* État verrouillé */
+    .card.locked {
+      background: var(--violet-locked) !important;
+      cursor: not-allowed;
+      opacity: 0.75;
+      filter: saturate(0.85);
+    }
+
+    /* État ouvert */
+    .card.opened {
+      background: var(--violet-light) !important;
+      color: var(--violet-dark);
+      font-weight: 600;
+    }
+
+    /* Transition douce du contenu */
+    .content {
+      opacity: 1;
+      transition: opacity 160ms ease;
+    }
+
+    .content.fade-out {
+      opacity: 0;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 18px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Responsive: 3 colonnes puis 2 puis 1 */
+    @media (max-width: 980px) {
+      .calendar { grid-template-columns: repeat(3, minmax(220px, 1fr)); }
+    }
+    @media (max-width: 740px) {
+      .calendar { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .calendar { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Calendrier de l'Avent 🎄</h1>
+    <p class="subtitle">Pour Mashouille aussi !</p>
+  </header>
+
+  <main class="calendar" id="calendar"></main>
+
+  <footer>
+
+  </footer>
+
+  <script>
+    // Messages
+    const messagesHer = {
+      1: "Tu es mon plus beau cadeau 🎁",
+      2: "Ton sourire est ma lumière ✨",
+      3: "J’aime chaque instant avec toi ❤️",
+      4: "Tu rends mes journées magiques 🎄",
+      5: "Je suis chanceux de t’avoir 💕",
+      6: "Tu es mon étoile du soir 🌟",
+      7: "Avec toi, tout est doux 🍫",
+      8: "Tu es mon refuge et ma joie 🏡",
+      9: "Je t’aime plus que le chocolat 🍫❤️",
+      10: "Tu es mon miracle quotidien 🎁",
+      11: "Ton rire est ma mélodie 🎶",
+      12: "Tu es mon plus grand trésor 💎",
+      13: "Chaque jour avec toi est Noël 🎄",
+      14: "Tu es mon bonheur infini 💖",
+      15: "Je t’aime à la folie 💕",
+      16: "Tu es mon soleil d’hiver ☀️",
+      17: "Tu rends ma vie magique ✨",
+      18: "Tu es mon câlin préféré 🤗",
+      19: "Je suis fier de nous 💑",
+      20: "Tu es mon rêve éveillé 🌙",
+      21: "Tu es mon aventure la plus belle 🌍",
+      22: "Je t’aime plus chaque jour ❤️",
+      23: "Tu es mon cadeau éternel 🎁",
+      24: "Joyeux Noël mon amour 🎄❤️"
+    };
+
+    const messagesCat = {
+      1: "Pour Mashouille : ronron spécial aujourd’hui 🐱",
+      2: "Pour Mashouille : câlin félin au programme 🐾",
+      3: "Pour Mashouille : miaou d’amour ❤️",
+      4: "Pour Mashouille : museau + gros câlin 🐱",
+      5: "Pour Mashouille : place gardée au chaud 🛏️",
+      6: "Pour Mashouille : ronron magique ✨",
+      7: "Pour Mashouille : moment de jeu 🎾",
+      8: "Pour Mashouille : regard doux 🐾",
+      9: "Pour Mashouille : il t’aime aussi ❤️",
+      10: "Pour Mashouille : petit cœur félin 💕",
+      11: "Pour Mashouille : surveillance du sapin 🎄",
+      12: "Pour Mashouille : bisou moustache 😽",
+      13: "Pour Mashouille : fan #1 🐱",
+      14: "Pour Mashouille : ronrons infinis 💖",
+      15: "Pour Mashouille : sieste partagée 💤",
+      16: "Pour Mashouille : câlin du jour ☀️",
+      17: "Pour Mashouille : magie féline ✨",
+      18: "Pour Mashouille : ronron préféré 🤗",
+      19: "Pour Mashouille : fier de toi 💑",
+      20: "Pour Mashouille : rêve éveillé 🌙",
+      21: "Pour Mashouille : aventure à deux 🐾",
+      22: "Pour Mashouille : amour quotidien ❤️",
+      23: "Pour Mashouille : cadeau ronron 🎁",
+      24: "Pour Mashouille : Joyeux Noël 🎄🐱"
+    };
+
+    // Date actuelle: en décembre, on bloque les jours futurs
+    const today = new Date();
+    const isDecember = today.getMonth() === 11; // 0 = Janvier, 11 = Décembre
+    const currentDay = isDecember ? Math.min(today.getDate(), 24) : 24; // mode test hors décembre
+
+    const calendar = document.getElementById("calendar");
+
+    // Helpers pour toggle avec petite transition
+    function setContentWithFade(el, text) {
+      const content = el.querySelector(".content");
+      content.classList.add("fade-out");
+      setTimeout(() => {
+        content.textContent = text;
+        content.classList.remove("fade-out");
+      }, 160);
+    }
+
+    function createCard({ labelClosed, labelOpened, className, locked }) {
+      const card = document.createElement("div");
+      card.className = `card ${className}` + (locked ? " locked" : "");
+      const inner = document.createElement("div");
+      inner.className = "content";
+      inner.textContent = labelClosed;
+      card.appendChild(inner);
+
+      if (!locked) {
+        card.addEventListener("click", () => {
+          const opened = card.classList.contains("opened");
+          card.classList.toggle("opened");
+          setContentWithFade(card, opened ? labelClosed : labelOpened);
+        });
+      }
+      return card;
+    }
+
+    // Construction du calendrier: 24 blocs jour
+    for (let i = 1; i <= 24; i++) {
+      const group = document.createElement("section");
+      group.className = "day-group";
+
+      // En-tête du jour
+      const header = document.createElement("div");
+      header.className = "day-header";
+      const title = document.createElement("div");
+      title.textContent = `Jour ${i}`;
+      const badge = document.createElement("div");
+      badge.className = "badge";
+      badge.textContent = isDecember ? "Décembre" : "Mode test";
+      header.appendChild(title);
+      header.appendChild(badge);
+
+      // Cases
+      const cards = document.createElement("div");
+      cards.className = "cards";
+
+      const locked = i > currentDay;
+
+      const herCard = createCard({
+        labelClosed: `${i}`,
+        labelOpened: messagesHer[i],
+        className: "her",
+        locked
+      });
+
+      const catCard = createCard({
+        labelClosed: "Pour Mashouille 🐱",
+        labelOpened: messagesCat[i],
+        className: "cat",
+        locked
+      });
+
+      cards.appendChild(herCard);
+      cards.appendChild(catCard);
+
+      group.appendChild(header);
+      group.appendChild(cards);
+
+      calendar.appendChild(group);
+    }
+  </script>
+</body>
+</html>
