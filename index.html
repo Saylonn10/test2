@@ -187,63 +187,65 @@
   <script>
     // Messages
     const messagesHer = {
-      1: "Tu es mon plus beau cadeau 🎁",
-      2: "Ton sourire est ma lumière ✨",
-      3: "J’aime chaque instant avec toi ❤️",
-      4: "Tu rends mes journées magiques 🎄",
-      5: "Je suis chanceux de t’avoir 💕",
-      6: "Tu es mon étoile du soir 🌟",
-      7: "Avec toi, tout est doux 🍫",
-      8: "Tu es mon refuge et ma joie 🏡",
-      9: "Je t’aime plus que le chocolat 🍫❤️",
-      10: "Tu es mon miracle quotidien 🎁",
-      11: "Ton rire est ma mélodie 🎶",
-      12: "Tu es mon plus grand trésor 💎",
-      13: "Chaque jour avec toi est Noël 🎄",
-      14: "Tu es mon bonheur infini 💖",
-      15: "Je t’aime à la folie 💕",
-      16: "Tu es mon soleil d’hiver ☀️",
-      17: "Tu rends ma vie magique ✨",
-      18: "Tu es mon câlin préféré 🤗",
-      19: "Je suis fier de nous 💑",
-      20: "Tu es mon rêve éveillé 🌙",
-      21: "Tu es mon aventure la plus belle 🌍",
-      22: "Je t’aime plus chaque jour ❤️",
-      23: "Tu es mon cadeau éternel 🎁",
-      24: "Joyeux Noël mon amour 🎄❤️"
+      1: "Tu sens meilleur qu'un sctroumpf...",
+      2: "J'ai jamais vu une fille aussi jolie que toi",
+      3: "Tu me manques déjà...",
+      4: "Passe une journée aussi belle que toi (géniale du coup)",
+      5: "Je te laisserais jamais de toute la vie",
+      6: "Je suis super fier de toi",
+      7: "J'ai jamais manger un truc aussi bon que toi",
+      8: "Je préfère toi aux pokemon",
+      9: "Tu es la fille la plus drole de tout Chemilly",
+      10: "T'as le plus beau sourire de la terre",
+      11: "J'aime tout de toi sauf quand tu me pete au nez",
+      12: "J'ai envie de te manger tout cru",
+      13: "",
+      14: "",
+      15: "",
+      16: "",
+      17: "",
+      18: "J'ai encore envie de te manger tout cru...",
+      19: "",
+      20: "",
+      21: "Je suis amoureux grand comme l'univers",
+      22: "",
+      23: "",
+      24: "",
+      25: "Je t'aime"
     };
 
     const messagesCat = {
-      1: "Pour Mashouille : ronron spécial aujourd’hui 🐱",
-      2: "Pour Mashouille : câlin félin au programme 🐾",
-      3: "Pour Mashouille : miaou d’amour ❤️",
-      4: "Pour Mashouille : museau + gros câlin 🐱",
-      5: "Pour Mashouille : place gardée au chaud 🛏️",
-      6: "Pour Mashouille : ronron magique ✨",
-      7: "Pour Mashouille : moment de jeu 🎾",
-      8: "Pour Mashouille : regard doux 🐾",
-      9: "Pour Mashouille : il t’aime aussi ❤️",
-      10: "Pour Mashouille : petit cœur félin 💕",
-      11: "Pour Mashouille : surveillance du sapin 🎄",
-      12: "Pour Mashouille : bisou moustache 😽",
-      13: "Pour Mashouille : fan #1 🐱",
-      14: "Pour Mashouille : ronrons infinis 💖",
-      15: "Pour Mashouille : sieste partagée 💤",
-      16: "Pour Mashouille : câlin du jour ☀️",
-      17: "Pour Mashouille : magie féline ✨",
-      18: "Pour Mashouille : ronron préféré 🤗",
-      19: "Pour Mashouille : fier de toi 💑",
-      20: "Pour Mashouille : rêve éveillé 🌙",
-      21: "Pour Mashouille : aventure à deux 🐾",
-      22: "Pour Mashouille : amour quotidien ❤️",
-      23: "Pour Mashouille : cadeau ronron 🎁",
-      24: "Pour Mashouille : Joyeux Noël 🎄🐱"
+      1: "T'es belle comme une gazelle 🫣",
+      2: "Je t'ai volé ta copine 🤪",
+      3: "Désolé d'avoir danser la bachata avec maman devant toi...🫣",
+      4: "Je ferais plein de betises avec toi t'inquiète 🤪",
+      5: "T'es aussi jolie qu'une sourie 🫨",
+      6: "Ton ronronnement est agréable comme le vent 🫨",
+      7: "Ta maman te doit 4 croquettes 🥳",
+      8: "Fais pas pipi dans le lit, ou alors pas du côtés de maman 🤪",
+      9: "S'il te plaît ne m'attaque pas si on reste tous les deux ☹️",
+      10: "Tu veux bien partager ta maman avec moi ? 🫣",
+      11: "Tu sens bon un peu 😶",
+      12: "T'es chouette comme une omelette 🫨",
+      13: "Ta maman te doit 5 min de massage 🥳",
+      14: "Je t'apprecie super beaucoup 🤏",
+      15: "T'es le chat le plus jaloux de la terre 😶",
+      16: "Aujourd'hui t'as le droit d'attaquer ta maman 🤪",
+      17: "Je nique ta mère 🤪",
+      18: "T'as un peu beaucoup de poils mais c'est ok 😶",
+      19: "Ta maman te doit 38 bisous 🥳",
+      20: "T'es plus belle qu'une hirondelle 🫨",
+      21: "On a le droit d'attaquer ta maman aujourd'hui 🤪",
+      22: "Sois sage sinon les lutins chats viendront pas 🫡",
+      23: "Je suis amoureux de toi à 60/100 🫣",
+      24: "Vomi pas aujourd'hui stp... 😶",
+      25: "Ta maman te doit bcp de croquettes c'est la fête 🥳"
     };
 
     // Date actuelle: en décembre, on bloque les jours futurs
     const today = new Date();
     const isDecember = today.getMonth() === 11; // 0 = Janvier, 11 = Décembre
-    const currentDay = isDecember ? Math.min(today.getDate(), 24) : 24; // mode test hors décembre
+    const currentDay = isDecember ? Math.min(today.getDate(), 25) : 25; // mode test hors décembre
 
     const calendar = document.getElementById("calendar");
 
@@ -276,7 +278,7 @@
     }
 
     // Construction du calendrier: 24 blocs jour
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= 25; i++) {
       const group = document.createElement("section");
       group.className = "day-group";
 
