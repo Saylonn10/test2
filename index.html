@@ -211,7 +211,7 @@
       22: "C'est légal d'être aussi incroyable ? 😶",
       23: "J'ai vérifié, t'es toujours mon point faible 😮‍💨",
       24: "T'es la fille la plus géniale du monde",
-      25: "Je t'aime"
+      25: ""
     };
 
     const messagesCat = {
@@ -259,23 +259,54 @@
       }, 160);
     }
 
-    function createCard({ labelClosed, labelOpened, className, locked }) {
-      const card = document.createElement("div");
-      card.className = `card ${className}` + (locked ? " locked" : "");
-      const inner = document.createElement("div");
-      inner.className = "content";
-      inner.textContent = labelClosed;
-      card.appendChild(inner);
+    function createCard({ labelClosed, labelOpened, className, locked, day }) {
+  const card = document.createElement("div");
+  card.className = `card ${className}` + (locked ? " locked" : "");
+  const inner = document.createElement("div");
+  inner.className = "content";
+  inner.textContent = labelClosed;
+  card.appendChild(inner);
 
-      if (!locked) {
-        card.addEventListener("click", () => {
-          const opened = card.classList.contains("opened");
-          card.classList.toggle("opened");
-          setContentWithFade(card, opened ? labelClosed : labelOpened);
-        });
+  if (!locked) {
+    card.addEventListener("click", () => {
+      const opened = card.classList.contains("opened");
+      card.classList.toggle("opened");
+
+      // Cas spécial : jour 25, case "her"
+      if (day === 25 && className === "her" && !opened) {
+        inner.innerHTML = `
+          <p>${labelOpened}</p>
+          <button id="loveBtn" style="
+            margin-top:10px;
+            padding:8px 14px;
+            border:none;
+            border-radius:8px;
+            background:#a678c9;
+            color:white;
+            font-size:1rem;
+            cursor:pointer;
+          ">
+            25 décembre ❤️
+          </button>
+        `;
+
+        const loveBtn = document.getElementById("loveBtn");
+        if (loveBtn) {
+          loveBtn.addEventListener("click", () => {
+            window.location.href = "texte.html";
+          });
+        }
+
+      } else {
+        // comportement normal
+        setContentWithFade(card, opened ? labelClosed : labelOpened);
       }
-      return card;
-    }
+    });
+  }
+
+  return card;
+}
+
 
     // Construction du calendrier: 24 blocs jour
     for (let i = 1; i <= 25; i++) {
@@ -297,20 +328,22 @@
       const cards = document.createElement("div");
       cards.className = "cards";
 
-      const locked = i > currentDay;
+      const locked = false;
 
       const herCard = createCard({
         labelClosed: `${i}`,
         labelOpened: messagesHer[i],
         className: "her",
-        locked
+        locked,
+        day: i
       });
 
       const catCard = createCard({
         labelClosed: "Pour Mashouille 🐱",
         labelOpened: messagesCat[i],
         className: "cat",
-        locked
+        locked,
+        day: i
       });
 
       cards.appendChild(herCard);
